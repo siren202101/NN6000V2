@@ -47,7 +47,7 @@
 | **luci-app-quickfile**   | 文件管理          |
 | **luci-app-samba4**      | SMB 文件共享      |
 | **luci-app-pbr**         | 策略路由          |
-| **luci-app-homeproxy**    | 科学上网          |
+| **luci-app-passwall**    | 科学上网          |
 
 ***
 

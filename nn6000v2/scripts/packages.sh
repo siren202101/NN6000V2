@@ -72,14 +72,34 @@ install_openwrt_packages() {
         luci-lib-docker luci-app-lucky luci-app-adguardhome luci-app-easytier \
         luci-app-oaf oaf open-app-filter \
         luci-app-dockerman luci-app-quickfile \
-        luci-app-homeproxy luci-app-mini-diskmanager \
+        luci-app-mini-diskmanager \
         luci-app-tailscale-community
 }
 
-clone_homeproxy() {
-    clone_packages "luci-app-homeproxy" \
-        "${GITHUB_BASE}szwjp/luci-app-homeproxy.git" \
-        "$OPENWRT_PACKAGES_DIR/luci-app-homeproxy"
+clone_singbox() {
+    local SINGBOX_DIR="$BUILD_DIR/feeds/packages/net/sing-box"
+    local TEMP_DIR="$OPENWRT_PACKAGES_DIR/sing-box-temp"
+
+    if [ ! -d "$SINGBOX_DIR" ]; then
+        echo "Warning: sing-box 目录不存在，跳过升级。" >&2
+        return 0
+    fi
+
+    clone_packages "sing-box" \
+        "${GITHUB_BASE}openwrt/packages.git" \
+        "$TEMP_DIR" \
+        "net/sing-box" \
+        "" \
+        "rm -rf \"$SINGBOX_DIR\" && mv \"$TEMP_DIR/net/sing-box\" \"$SINGBOX_DIR\" && rm -rf \"$TEMP_DIR\""
+
+    local makefile="$SINGBOX_DIR/Makefile"
+    if [ -f "$makefile" ]; then
+        sed -i 's/^PKG_VERSION:=.*/PKG_VERSION:=1.14.2/' "$makefile"
+        sed -i 's/^PKG_HASH:=.*/PKG_HASH:=67dd8f8c37ecaaadcfcafad1f0827eed4b034c963b86fd3aa5c0d7a36876845d/' "$makefile"
+        echo "✓ sing-box 已升级到 1.14.2"
+    else
+        echo "Warning: sing-box Makefile 未找到，跳过版本更新。" >&2
+    fi
 }
 
 clone_lucky() {

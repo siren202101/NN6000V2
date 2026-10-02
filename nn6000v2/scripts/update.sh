@@ -50,7 +50,7 @@ main() {
     clone_easytier
     clone_oaf
     clone_luci_tailscale
-    clone_homeproxy
+    clone_singbox
     install_feeds
     fix_smartdns_makefile
     update_docker_stack
