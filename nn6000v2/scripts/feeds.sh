@@ -8,6 +8,10 @@ update_feeds() {
 
     sed -i '/^src-link/d' "$FEEDS_PATH"
 
+    if ! grep -q "vernesong/OpenClash.git" "$FEEDS_PATH"; then
+        echo "src-git openclash https://github.com/vernesong/OpenClash.git;master" >>"$FEEDS_PATH"
+    fi
+    
     if ! grep -q "openwrt-packages" "$FEEDS_PATH"; then
         [ -z "$(tail -c 1 "$FEEDS_PATH")" ] || echo "" >>"$FEEDS_PATH"
         echo "src-git openwrt_packages https://github.com/kenzok8/openwrt-packages.git" >>"$FEEDS_PATH"
