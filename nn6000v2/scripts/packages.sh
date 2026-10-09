@@ -69,11 +69,11 @@ install_openwrt_packages() {
         taskd luci-lib-xterm luci-lib-taskd \
         luci-app-store quickstart luci-app-quickstart luci-app-istorex \
         smartdns luci-app-smartdns luci-theme-argon luci-app-argon-config \
-        luci-lib-docker luci-app-lucky luci-app-adguardhome luci-app-easytier \
+        luci-lib-docker luci-app-lucky luci-app-adguardhome \
         luci-app-oaf oaf open-app-filter \
         luci-app-dockerman luci-app-quickfile \
         luci-app-mini-diskmanager \
-        luci-app-tailscale-community
+        luci-app-tailscale-community luci-app-zerotier
 }
 
 clone_singbox() {
@@ -150,28 +150,18 @@ clone_lucky() {
 
 clone_adguardhome() {
     clone_packages "luci-app-adguardhome" \
-        "${GITHUB_BASE}wzdddyy/luci-app-adguardhome.git" \
+        "${GITHUB_BASE}xiaoxiao29/luci-app-adguardhome.git" \
         "$OPENWRT_PACKAGES_DIR/luci-app-adguardhome"
+}
+
+clone_zerotier() {
+    clone_packages "luci-app-zerotier" \
+        "${GITHUB_BASE}aimeeacker/luci-app-zerotier.git" \
+        "$OPENWRT_PACKAGES_DIR/luci-app-zerotier"
 }
 
 install_extra_feed_deps() {
     (cd "$BUILD_DIR" && ./scripts/feeds install -f luci-lib-jsonc kmod-ipt-conntrack kmod-ipt-nat)
-}
-
-clone_easytier() {
-    local EASYTIER_DIR="$OPENWRT_PACKAGES_DIR/luci-app-easytier"
-    local TEMP_DIR="$OPENWRT_PACKAGES_DIR/easytier-temp"
-
-    clone_packages "luci-app-easytier" \
-        "${GITHUB_BASE}EasyTier/luci-app-easytier.git" \
-        "$TEMP_DIR" \
-        "luci-app-easytier" \
-        "" \
-        "" \
-        "$TEMP_DIR/luci-app-easytier" \
-        "$EASYTIER_DIR"
-
-    rm -rf "$TEMP_DIR"
 }
 
 clone_oaf() {
@@ -233,7 +223,7 @@ _sync_luci_lib_docker() {
 
 clone_dockerman() {
     local path="$OPENWRT_PACKAGES_DIR/luci-app-dockerman"
-    local repo_url="${GITHUB_BASE}wzdddyy/luci-app-dockerman.git"
+    local repo_url="${GITHUB_BASE}lisaac/luci-app-dockerman.git"
     local temp_dir="$OPENWRT_PACKAGES_DIR/dockerman"
 
     _sync_luci_lib_docker

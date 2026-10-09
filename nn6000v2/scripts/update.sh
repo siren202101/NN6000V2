@@ -46,8 +46,9 @@ main() {
     clone_mini_diskmanager
     clone_dockerman
     clone_adguardhome
+    clone_zerotier
+    fix_zerotier_nonfree
     install_extra_feed_deps
-    clone_easytier
     clone_oaf
     clone_luci_tailscale
     clone_singbox

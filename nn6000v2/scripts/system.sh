@@ -171,7 +171,6 @@ add_backup_info_to_sysupgrade() {
     if [ -f "$conf_path" ]; then
         cat >"$conf_path" <<'EOF'
 /etc/AdGuardHome.yaml
-/etc/easytier
 /etc/lucky/
 EOF
     fi
@@ -193,6 +192,17 @@ fix_rust_compile_error() {
     if [ -f "$BUILD_DIR/feeds/packages/lang/rust/Makefile" ]; then
         sed -i 's/download-ci-llvm=true/download-ci-llvm=false/g' "$BUILD_DIR/feeds/packages/lang/rust/Makefile"
     fi
+}
+
+fix_zerotier_nonfree() {
+    local makefile="$BUILD_DIR/feeds/packages/net/zerotier/Makefile"
+    if [ ! -f "$makefile" ]; then
+        echo "zerotier Makefile not found, skip NONFREE fix"
+        return 0
+    fi
+
+    echo "正在启用 zerotier ZT_NONFREE=1（内置 Controller 支持）..."
+    sed -i 's/ZT_NONFREE=0/ZT_NONFREE=1/g' "$makefile"
 }
 
 fix_smartdns_makefile() {
