@@ -149,9 +149,16 @@ clone_lucky() {
 }
 
 clone_adguardhome() {
+    local temp_dir="$OPENWRT_PACKAGES_DIR/adguardhome-temp"
     clone_packages "luci-app-adguardhome" \
         "${GITHUB_BASE}xiaoxiao29/luci-app-adguardhome.git" \
+        "$temp_dir" \
+        "luci-app-adguardhome" \
+        "" \
+        "" \
+        "$temp_dir/luci-app-adguardhome" \
         "$OPENWRT_PACKAGES_DIR/luci-app-adguardhome"
+    rm -rf "$temp_dir"
 }
 
 clone_zerotier() {
@@ -216,9 +223,16 @@ clone_mini_diskmanager() {
 }
 
 _sync_luci_lib_docker() {
+    local temp_dir="$OPENWRT_PACKAGES_DIR/luci-lib-docker-temp"
     clone_packages "luci-lib-docker" \
         "${GITHUB_BASE}lisaac/luci-lib-docker.git" \
+        "$temp_dir" \
+        "collections/luci-lib-docker" \
+        "" \
+        "" \
+        "$temp_dir/collections/luci-lib-docker" \
         "$OPENWRT_PACKAGES_DIR/luci-lib-docker"
+    rm -rf "$temp_dir"
 }
 
 clone_dockerman() {
